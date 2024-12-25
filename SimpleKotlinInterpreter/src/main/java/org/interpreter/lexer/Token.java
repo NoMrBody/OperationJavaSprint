@@ -1,16 +1,17 @@
 package org.interpreter.lexer;
 
+// simple anatomy of token
 public class Token {
-    public final String type;
+    public final TokenType type;
     public final String value;
 
-    public Token(String type, String value) {
+    public Token(TokenType type, String value) {
         this.type = type;
         this.value = value;
     }
 
     @Override
     public String toString() {
-        return value != null ? type + " " + value : type;
+        return String.format("Token(%s, %s)", type, value);
     }
 }
