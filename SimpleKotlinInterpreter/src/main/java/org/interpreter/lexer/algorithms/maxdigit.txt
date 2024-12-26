@@ -1,0 +1,10 @@
+var num = 3947
+var maxdigit = 0
+while (num != 0) {
+    val digit = num % 10
+    if (digit > maxDigit) {
+        maxDigit = digit
+    }
+    num /= 10
+}
+println(maxdigit)

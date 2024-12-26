@@ -1,0 +1,19 @@
+var n = 10 // Example input
+var a = 0
+var b = 1
+var fib = 0
+var i = 2
+if (n == 1) {
+    fib = a
+} else if (n == 2) {
+    fib = b
+} else {
+    while (i < n) {
+        fib = a + b
+        a = b
+        b = fib
+        i += 1
+    }
+}
+println(fib)
+
