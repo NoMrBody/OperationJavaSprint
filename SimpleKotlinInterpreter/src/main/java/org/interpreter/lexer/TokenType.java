@@ -11,4 +11,7 @@ public enum TokenType {
     PRINT, // println command
     LEFT_PAREN, // (
     RIGHT_PAREN, // )
+    LEFT_BRACE, // {
+    RIGHT_BRACE, // }
+    BOOLEAN // true, false
 }
