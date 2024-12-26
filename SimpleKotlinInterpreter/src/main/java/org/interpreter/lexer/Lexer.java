@@ -4,7 +4,6 @@ package org.interpreter.lexer;
 import java.util.ArrayList;
 import java.util.List;
 
-// this class breaks down input into tokens for future
 public class Lexer {
     private final String code;
     private int currentIndex = 0;
@@ -13,6 +12,7 @@ public class Lexer {
         this.code = code;
     }
 
+    // this function breaks down inputted code into tokens
     public List<Token> tokenize() {
         List<Token> tokens = new ArrayList<>();
 
@@ -26,11 +26,12 @@ public class Lexer {
 
             if (isLetter(currentChar)) {
                 String word = readKeyword();
-                // dealing with keywords and identifiers
+
                 switch (word) {
                     case "println" -> tokens.add(new Token(TokenType.PRINT, word));
                     case "val", "var", "while" -> tokens.add(new Token(TokenType.KEYWORD, word));
                     case "if", "else" -> tokens.add(new Token(TokenType.CONDITIONAL, word));
+                    case "true", "false" -> tokens.add(new Token(TokenType.BOOLEAN, word));
                     default -> tokens.add(new Token(TokenType.IDENTIFIER, word));
                 }
                 continue;
@@ -51,8 +52,13 @@ public class Lexer {
 
             switch (currentChar) {
                 case '=' -> {
-                    tokens.add(new Token(TokenType.ASSIGN, "="));
-                    currentIndex++;
+                    if (currentIndex + 1 < code.length() && code.charAt(currentIndex + 1) == '=') {
+                        tokens.add(new Token(TokenType.OPERATOR, "=="));
+                        currentIndex = currentIndex + 2;
+                    } else {
+                        tokens.add(new Token(TokenType.ASSIGN, "="));
+                        currentIndex++;
+                    }
                     continue;
                 }
                 case '(' -> {
@@ -65,7 +71,16 @@ public class Lexer {
                     currentIndex++;
                     continue;
                 }
-//                default -> throw new IllegalStateException("Unexpected character: " + currentChar);
+                case '{' -> {
+                    tokens.add(new Token(TokenType.LEFT_BRACE, "{"));
+                    currentIndex++;
+                    continue;
+                }
+                case '}' -> {
+                    tokens.add(new Token(TokenType.RIGHT_BRACE, "}"));
+                    currentIndex++;
+                    continue;
+                }
             }
 
 
@@ -76,7 +91,6 @@ public class Lexer {
                 continue;
             }
             throw new LexerException("Unexpected character: " + currentChar);
-//            currentIndex++;
         }
         return tokens;
     }
@@ -101,7 +115,7 @@ public class Lexer {
     private String readMultiCharOperator() {
         if (currentIndex + 1 < code.length()) {
             String twoCharOp = code.substring(currentIndex, currentIndex + 2);
-            if (twoCharOp.equals("!=") || twoCharOp.equals("<=") || twoCharOp.equals(">=") || twoCharOp.equals("==")) {
+            if (twoCharOp.equals("==") ||twoCharOp.equals("!=") || twoCharOp.equals("<=") || twoCharOp.equals(">=")) {
                 currentIndex += 2;
                 return twoCharOp;
             }
@@ -120,7 +134,7 @@ public class Lexer {
     }
 
     private boolean isMultiCharOperator(char c) {
-        return (c == '!' || c == '=' || c == '<' || c == '>');
+        return (c == '!' || c == '<' || c == '>');
     }
 
 
