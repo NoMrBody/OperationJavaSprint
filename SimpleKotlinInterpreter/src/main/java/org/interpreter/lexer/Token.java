@@ -14,4 +14,12 @@ public class Token {
     public String toString() {
         return String.format("[<%s>, %s]", type, value);
     }
+
+    public TokenType getType() {
+        return this.type;
+    }
+
+    public String getValue() {
+        return this.value;
+    }
 }
