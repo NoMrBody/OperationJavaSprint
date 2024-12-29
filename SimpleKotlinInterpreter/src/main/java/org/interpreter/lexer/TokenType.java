@@ -13,5 +13,5 @@ public enum TokenType {
     RIGHT_PAREN, // )
     LEFT_BRACE, // {
     RIGHT_BRACE, // }
-    BOOLEAN // true, false
+    EOF // end of token stream
 }
