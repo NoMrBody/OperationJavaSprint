@@ -1,0 +1,8 @@
+var num = 1236734
+var sum = 0
+while (num != 0) {
+    digit = num % 10
+    sum = sum + digit
+    num = num / 10
+}
+println(sum)

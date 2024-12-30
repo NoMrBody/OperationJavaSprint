@@ -16,7 +16,7 @@ public class Lexer {
     public List<Token> tokenize() {
         List<Token> tokens = new ArrayList<>();
 
-        while (currentIndex < code.length()) {
+        while (!isAtEnd()) {
             char currentChar = code.charAt(currentIndex);
 
             if (isWhitespace(currentChar)) {
@@ -31,7 +31,7 @@ public class Lexer {
                     case "println" -> tokens.add(new Token(TokenType.PRINT, word));
                     case "val", "var", "while" -> tokens.add(new Token(TokenType.KEYWORD, word));
                     case "if", "else" -> tokens.add(new Token(TokenType.CONDITIONAL, word));
-                    case "true", "false" -> tokens.add(new Token(TokenType.BOOLEAN, word));
+
                     default -> tokens.add(new Token(TokenType.IDENTIFIER, word));
                 }
                 continue;
@@ -90,8 +90,9 @@ public class Lexer {
                 currentIndex++;
                 continue;
             }
-            throw new LexerException("Unexpected character: " + currentChar);
+            currentIndex++;
         }
+        tokens.add(new Token(TokenType.EOF, ""));
         return tokens;
     }
 
@@ -133,6 +134,7 @@ public class Lexer {
         return c == '+' || c == '-' || c == '*' || c == '/' || c == '%' || c == '>' || c == '<';
     }
 
+    // checks if character is part of multi-char operator
     private boolean isMultiCharOperator(char c) {
         return (c == '!' || c == '<' || c == '>');
     }
@@ -146,6 +148,10 @@ public class Lexer {
     // checks if input is digit
     private boolean isDigit(char c) {
         return (c >= '0' && c <= '9');
+    }
+
+    private boolean isAtEnd(){
+        return currentIndex >= code.length();
     }
 
 }
