@@ -1,0 +1,8 @@
+var num = 1357
+var reversed = 0
+while (num != 0) {
+    val digit = num % 10
+    reversed = reversed * 10 + digit
+    num = num / 10
+}
+println(reversed)
