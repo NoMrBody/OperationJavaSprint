@@ -31,7 +31,17 @@ public class Main {
 
         String code = readAlgorithmFromFile(fileName);
 
-        if (code == null){
+        //to run the input manually
+        //pass manualInput to the Lexer constructor
+        String manualInput = """
+                val x = 5
+                while (x > 0) {
+                    println(x)
+                    x = x - 1
+                }
+                """;
+
+        if (code == null) {
             System.out.println("couldn't load algorithm from file");
             return;
         }
@@ -53,9 +63,9 @@ public class Main {
     This method reads the content of a file located in src/main/resources/algorithms
      */
     private static String readAlgorithmFromFile(String fileName) {
-        try{
+        try {
             var classLoader = Main.class.getClassLoader();
-            var filePath = Objects.requireNonNull(classLoader.getResource("algorithms/"+ fileName)).getPath();
+            var filePath = Objects.requireNonNull(classLoader.getResource("algorithms/" + fileName)).getPath();
             return new String(Files.readAllBytes(Paths.get(filePath)));
         } catch (IOException | NullPointerException e) {
             System.err.println("error reading file: " + fileName);
@@ -63,6 +73,4 @@ public class Main {
             return null;
         }
     }
-
-
 }
